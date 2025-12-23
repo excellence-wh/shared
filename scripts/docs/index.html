@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <title>Shared Scripts Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 为主要内容容器添加顶部边距，避免被固定页头遮挡 */
+        body > .container {
+            margin-top: 20px;
+        }
+
+        header {
+            background-color: #000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .nav-item {
+            background-color: #000;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .nav-item:hover {
+            background-color: #333;
+        }
+
+        section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+
+        h3 {
+            color: #333;
+            margin: 20px 0 15px;
+        }
+
+        h4 {
+            color: #000;
+            margin: 15px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .script-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .script-info-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #000;
+        }
+
+        .script-info-item h4 {
+            margin-top: 0;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .command {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .param-table th, .param-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .param-table th {
+            background-color: #fff;
+            font-weight: bold;
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .param-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .example {
+            background-color: #f0f0f0;
+            border: 1px solid #000;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .example h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .status-implemented {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .company-name {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        /* 返回顶部按钮样式 */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+
+        #back-to-top:hover {
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+
+        #back-to-top.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .script-info {
+                flex-direction: column;
+            }
+
+            #back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Shared Scripts Documentation</h1>
+            <p class="subtitle">用于构建、清理、恢复和压缩项目的共享脚本集合</p>
+            <p class="company-name">Wuhan Excellence Technology Co., Ltd.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <h2>脚本目录</h2>
+            <div class="nav-grid">
+                <a href="#clean" class="nav-item">clean.ts</a>
+                <a href="#build" class="nav-item">build.ts</a>
+                <a href="#restore" class="nav-item">restore.ts</a>
+                <a href="#publish" class="nav-item">publish.ts</a>
+                <a href="#zip" class="nav-item">zip.ts</a>
+            </div>
+        </nav>
+
+        <section>
+            <h2>概述</h2>
+            <p>本目录包含一系列用于项目管理的共享脚本，支持Node.js和.NET项目。这些脚本旨在简化项目构建、清理、依赖恢复和发布过程，提高开发效率。</p>
+            
+            <h3>使用方法</h3>
+            <p>所有脚本都可以通过以下方式运行：</p>
+            <div class="code-block">
+                <pre>bun run &lt;script-name&gt;</pre>
+            </div>
+            
+            <p>或者在其他项目中引用：</p>
+            <div class="code-block">
+                <pre>bun run d:/excellence.wh/shared/scripts/src/&lt;script-name&gt;.ts</pre>
+            </div>
+        </section>
+
+        <section id="clean">
+            <h2>clean.ts</h2>
+            <div class="script-info">
+                <div class="script-info-item">
+                    <h4>功能</h4>
+                    <p>根据项目配置清除指定的文件和目录</p>
+                </div>
+                <div class="script-info-item">
+                    <h4>状态</h4>
+                    <span class="status status-implemented">已实现</span>
+                </div>
+                <div class="script-info-item">
+                    <h4>项目类型</h4>
+                    <p>Node.js, .NET</p>
+                </div>
+            </div>
+
+            <h3>使用方法</h3>
+            <div class="code-block">
+                <pre>bun run clean [options]</pre>
+            </div>
+
+            <h3>参数说明</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>别名</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>--directories</td>
+                        <td>-d</td>
+                        <td>array</td>
+                        <td>目标扫描目录</td>
+                        <td>["."]</td>
+                    </tr>
+                    <tr>
+                        <td>--dry-run</td>
+                        <td>-n</td>
+                        <td>boolean</td>
+                        <td>预览操作而不实际执行命令</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--concurrency</td>
+                        <td>-c</td>
+                        <td>number</td>
+                        <td>最大并发操作数</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>--verbose</td>
+                        <td>-v</td>
+                        <td>boolean</td>
+                        <td>启用详细日志</td>
+                        <td>false</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>配置示例</h3>
+            <p>在项目的package.json中添加clean配置：</p>
+            <div class="code-block">
+                <pre>{"clean": {
+  "files": [
+    "dist",
+    "*.log",
+    "node_modules"
+  ]
+}}</pre>
+            </div>
+
+            <h3>示例</h3>
+            <div class="example">
+                <h4>基本使用</h4>
+                <div class="code-block">
+                    <pre>bun run clean</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>预览模式</h4>
+                <div class="code-block">
+                    <pre>bun run clean --dry-run</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>指定目录</h4>
+                <div class="code-block">
+                    <pre>bun run clean --directories ./src ./test</pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="build">
+            <h2>build.ts</h2>
+            <div class="script-info">
+                <div class="script-info-item">
+                    <h4>功能</h4>
+                    <p>构建Node.js和.NET项目</p>
+                </div>
+                <div class="script-info-item">
+                    <h4>状态</h4>
+                    <span class="status status-implemented">已实现</span>
+                </div>
+                <div class="script-info-item">
+                    <h4>项目类型</h4>
+                    <p>Node.js, .NET</p>
+                </div>
+            </div>
+
+            <h3>使用方法</h3>
+            <div class="code-block">
+                <pre>bun run build [options]</pre>
+            </div>
+
+            <h3>参数说明</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>别名</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>--directories</td>
+                        <td>-d</td>
+                        <td>array</td>
+                        <td>目标扫描目录</td>
+                        <td>["."]</td>
+                    </tr>
+                    <tr>
+                        <td>--dry-run</td>
+                        <td>-n</td>
+                        <td>boolean</td>
+                        <td>预览操作而不实际执行命令</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--concurrency</td>
+                        <td>-c</td>
+                        <td>number</td>
+                        <td>最大并发操作数</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>--verbose</td>
+                        <td>-v</td>
+                        <td>boolean</td>
+                        <td>启用详细日志</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--configuration</td>
+                        <td>--config</td>
+                        <td>string</td>
+                        <td>.NET项目构建配置</td>
+                        <td>Release</td>
+                    </tr>
+                    <tr>
+                        <td>--node-command</td>
+                        <td>--nc</td>
+                        <td>string</td>
+                        <td>Node.js项目构建命令</td>
+                        <td>npm run build</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>示例</h3>
+            <div class="example">
+                <h4>基本使用</h4>
+                <div class="code-block">
+                    <pre>bun run build</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>使用Debug配置构建.NET项目</h4>
+                <div class="code-block">
+                    <pre>bun run build --config Debug</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>使用yarn构建Node.js项目</h4>
+                <div class="code-block">
+                    <pre>bun run build --nc "yarn build"</pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="restore">
+            <h2>restore.ts</h2>
+            <div class="script-info">
+                <div class="script-info-item">
+                    <h4>功能</h4>
+                    <p>恢复Node.js和.NET项目的依赖</p>
+                </div>
+                <div class="script-info-item">
+                    <h4>状态</h4>
+                    <span class="status status-implemented">已实现</span>
+                </div>
+                <div class="script-info-item">
+                    <h4>项目类型</h4>
+                    <p>Node.js, .NET</p>
+                </div>
+            </div>
+
+            <h3>使用方法</h3>
+            <div class="code-block">
+                <pre>bun run restore [options]</pre>
+            </div>
+
+            <h3>参数说明</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>别名</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>--directories</td>
+                        <td>-d</td>
+                        <td>array</td>
+                        <td>目标扫描目录</td>
+                        <td>["."]</td>
+                    </tr>
+                    <tr>
+                        <td>--dry-run</td>
+                        <td>-n</td>
+                        <td>boolean</td>
+                        <td>预览操作而不实际执行命令</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--concurrency</td>
+                        <td>-c</td>
+                        <td>number</td>
+                        <td>最大并发操作数</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>--verbose</td>
+                        <td>-v</td>
+                        <td>boolean</td>
+                        <td>启用详细日志</td>
+                        <td>false</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>功能说明</h3>
+            <ul>
+                <li><strong>Node.js项目</strong>：执行 <code>npm install</code> 恢复依赖</li>
+                <li><strong>.NET项目</strong>：执行 <code>dotnet build</code> 恢复依赖并构建项目</li>
+            </ul>
+
+            <h3>示例</h3>
+            <div class="example">
+                <h4>基本使用</h4>
+                <div class="code-block">
+                    <pre>bun run restore</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>预览模式</h4>
+                <div class="code-block">
+                    <pre>bun run restore --dry-run</pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="publish">
+            <h2>publish.ts</h2>
+            <div class="script-info">
+                <div class="script-info-item">
+                    <h4>功能</h4>
+                    <p>发布项目（待实现）</p>
+                </div>
+                <div class="script-info-item">
+                    <h4>状态</h4>
+                    <span class="status status-pending">待实现</span>
+                </div>
+                <div class="script-info-item">
+                    <h4>项目类型</h4>
+                    <p>Node.js, .NET</p>
+                </div>
+            </div>
+
+            <h3>说明</h3>
+            <p>该脚本目前为空，计划用于项目发布功能，包括：</p>
+            <ul>
+                <li>构建项目</li>
+                <li>生成发布包</li>
+                <li>部署到目标环境</li>
+            </ul>
+        </section>
+
+        <section id="zip">
+            <h2>zip.ts</h2>
+            <div class="script-info">
+                <div class="script-info-item">
+                    <h4>功能</h4>
+                    <p>压缩项目输出文件</p>
+                </div>
+                <div class="script-info-item">
+                    <h4>状态</h4>
+                    <span class="status status-implemented">已实现</span>
+                </div>
+                <div class="script-info-item">
+                    <h4>项目类型</h4>
+                    <p>Node.js, .NET</p>
+                </div>
+            </div>
+
+            <h3>使用方法</h3>
+            <div class="code-block">
+                <pre>bun run zip [options]</pre>
+            </div>
+
+            <h3>参数说明</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>别名</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>--directories</td>
+                        <td>-d</td>
+                        <td>array</td>
+                        <td>目标扫描目录</td>
+                        <td>["."]</td>
+                    </tr>
+                    <tr>
+                        <td>--dry-run</td>
+                        <td>-n</td>
+                        <td>boolean</td>
+                        <td>预览操作而不实际执行命令</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--concurrency</td>
+                        <td>-c</td>
+                        <td>number</td>
+                        <td>最大并发操作数</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>--verbose</td>
+                        <td>-v</td>
+                        <td>boolean</td>
+                        <td>启用详细日志</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>--format</td>
+                        <td>-f</td>
+                        <td>string</td>
+                        <td>压缩格式</td>
+                        <td>zip</td>
+                    </tr>
+                    <tr>
+                        <td>--output</td>
+                        <td>-o</td>
+                        <td>string</td>
+                        <td>输出文件名模板</td>
+                        <td>{project}-{timestamp}.{format}</td>
+                    </tr>
+                    <tr>
+                        <td>--config</td>
+                        <td>--conf</td>
+                        <td>string</td>
+                        <td>自定义配置文件路径</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>压缩格式</h3>
+            <ul>
+                <li><strong>zip</strong>：标准ZIP格式</li>
+                <li><strong>tar</strong>：TAR归档格式</li>
+                <li><strong>tgz</strong>：压缩的TAR格式（gzip）</li>
+            </ul>
+
+            <h3>输出文件名模板</h3>
+            <p>支持以下变量：</p>
+            <ul>
+                <li><code>{project}</code>：项目名称</li>
+                <li><code>{timestamp}</code>：时间戳</li>
+                <li><code>{format}</code>：压缩格式</li>
+            </ul>
+
+            <h3>示例</h3>
+            <div class="example">
+                <h4>基本使用</h4>
+                <div class="code-block">
+                    <pre>bun run zip</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>使用tar格式</h4>
+                <div class="code-block">
+                    <pre>bun run zip -f tar</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>自定义输出文件名</h4>
+                <div class="code-block">
+                    <pre>bun run zip -o "{project}-{timestamp}.{format}"</pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>配置示例</h2>
+            <p>在其他项目中使用这些脚本的完整配置示例：</p>
+            <div class="code-block">
+                <pre>{"name": "my-project",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "bun run d:/excellence.wh/shared/scripts/src/clean.ts",
+    "build": "bun run d:/excellence.wh/shared/scripts/src/build.ts",
+    "restore": "bun run d:/excellence.wh/shared/scripts/src/restore.ts",
+    "zip": "bun run d:/excellence.wh/shared/scripts/src/zip.ts"
+  },
+  "clean": {
+    "files": [
+      "dist",
+      "*.log",
+      "node_modules"
+    ]
+  }
+}</pre>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Wuhan Excellence Technology Co., Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <button id="back-to-top" title="返回顶部">↑</button>
+
+    <script>
+        // 返回顶部按钮功能
+        const backToTopButton = document.getElementById('back-to-top');
+
+        // 滚动时显示/隐藏按钮
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        // 点击返回顶部
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

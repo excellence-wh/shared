@@ -1,0 +1,42 @@
+{
+  "name": "excellent-decoration-shared-scripts",
+  "version": "1.0.0",
+  "description": "Shared scripts for excellence.wh projects",
+  "main": "index.js",
+  "bin": {
+    "clean": "./src/clean.ts",
+    "build": "./src/build.ts",
+    "publish": "./src/publish.ts",
+    "restore": "./src/restore.ts",
+    "zip": "./src/zip.ts"
+  },
+  "scripts": {
+    "clean": "bun run src/clean.ts",
+    "build": "bun run src/build.ts",
+    "publish": "bun run src/publish.ts",
+    "restore": "bun run src/restore.ts",
+    "zip": "bun run src/zip.ts",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@types/archiver": "^7.0.0",
+    "@types/node": "^25.0.2",
+    "archiver": "^7.0.1",
+    "glob": "^11.0.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@types/glob": "^8.1.0",
+    "@types/yargs": "^17.0.32",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.7.4"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write"
+    ]
+  }
+}
